@@ -95,7 +95,6 @@ SELECT idczekoladki, nazwa, czekolada, orzechy, nadzienie FROM czekoladki
 WHERE czekolada NOT IN ('biala', 'mleczna')
 AND (orzechy IS NOT NULL or nadzienie IS NOT NULL);
 
-
 -- 6
 SELECT idczekoladki, nazwa, czekolada, orzechy, nadzienie FROM czekoladki
 WHERE nadzienie IS NOT NULL;
@@ -116,18 +115,18 @@ WHERE czekolada IN ('mleczna', 'biala') AND nadzienie IS NULL;
 -- ZADANIE 2.6
 
 -- 1
-SELECT * FROM czekoladki WHERE masa BETWEEN 15 AND 24 OR koszt BETWEEN 15 AND 24;
+SELECT * FROM czekoladki WHERE masa BETWEEN 15 AND 24 OR koszt BETWEEN 0.15 AND 0.24;
 
 -- 2
-SELECT * FROM czekoladki WHERE (masa BETWEEN 15 AND 24 AND koszt BETWEEN 15 AND 24)
-                            OR (masa BETWEEN 25 AND 35 AND koszt BETWEEN 25 AND 35);
+SELECT * FROM czekoladki WHERE (masa BETWEEN 15 AND 24 AND koszt BETWEEN 0.15 AND 0.24)
+                            OR (masa BETWEEN 25 AND 35 AND koszt BETWEEN 0.25 AND 0.35);
 
 -- 3
-SELECT * FROM czekoladki WHERE masa BETWEEN 15 AND 24 AND koszt BETWEEN 15 AND 24;
+SELECT * FROM czekoladki WHERE masa BETWEEN 15 AND 24 AND koszt BETWEEN 0.15 AND 0.24;
 
 -- 4
-SELECT * FROM czekoladki WHERE masa BETWEEN 25 AND 35 AND koszt NOT BETWEEN 25 AND 35;
+SELECT * FROM czekoladki WHERE masa BETWEEN 25 AND 35 AND koszt NOT BETWEEN 0.25 AND 0.35;
 
 -- 5
 SELECT * FROM czekoladki WHERE masa BETWEEN 25 AND 35 AND
-                               (koszt NOT BETWEEN 15 AND 24 AND koszt NOT BETWEEN 25 AND 35);
+                               (koszt NOT BETWEEN 0.15 AND 0.24 AND koszt NOT BETWEEN 0.25 AND 0.35);
