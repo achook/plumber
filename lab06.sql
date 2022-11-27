@@ -55,7 +55,6 @@ SELECT * FROM czekoladki WHERE idczekoladki IN ('X91', 'M98');
 UPDATE klienci SET nazwa = 'Nowak Iza' WHERE nazwa = 'Matusiak Iza';
 SELECT * FROM klienci WHERE nazwa IN ('Nowak Iza', 'Matusiak Iza');
 
-
 -- 2
 SELECT idczekoladki, koszt FROM czekoladki WHERE idczekoladki IN ('W98', 'M98', 'X91');
 UPDATE czekoladki SET koszt = koszt*0.9 WHERE idczekoladki IN ('W98', 'M98', 'X91');
@@ -73,3 +72,37 @@ SELECT idklienta, miejscowosc FROM klienci WHERE miejscowosc IN ('Leningrad', 'P
 SELECT idczekoladki, koszt FROM czekoladki WHERE RIGHT(idczekoladki, 2)::integer > 90;
 UPDATE czekoladki SET koszt = koszt+0.15 WHERE RIGHT(idczekoladki, 2)::integer > 90;
 SELECT idczekoladki, koszt FROM czekoladki WHERE RIGHT(idczekoladki, 2)::integer > 90;
+
+
+-- ZADANIE 6.5
+
+-- 1
+DELETE FROM klienci WHERE nazwa ~ '^Matusiak';
+
+-- 2
+DELETE FROM klienci WHERE idklienta > 91;
+
+-- 3
+DELETE FROM czekoladki WHERE koszt >= 0.45 OR masa >= 36 OR masa = 0;
+
+
+-- ZADANIE 6.6
+
+-- 1
+INSERT INTO pudelka VALUES
+    ('abcd', 'Cukierkowa Radość', 'Bardzo smaczne pudełko czekoladek', 0, 300),
+    ('dcba', 'Cukierkowy Smutek', 'Bardzo niesmaczne pudełko czekoladek', 0, 400);
+
+INSERT INTO zawartosc VALUES
+    ('abcd', 'b01', 3), ('abcd', 'b02', 4), ('abcd', 'b03', 2), ('abcd', 'b04', 5),
+    ('dcba', 'd01', 2), ('dcba', 'd02', 1), ('dcba', 'd03', 5), ('dcba', 'd04', 5), ('dcba', 'd06', 1);
+
+WITH nowe_ceny AS
+    (SELECT SUM(koszt) suma FROM czekoladki c INNER JOIN zawartosc z USING (idczekoladki) WHERE z.idpudelka = 'abcd')
+UPDATE pudelka SET cena = nowe_ceny.suma FROM nowe_ceny
+WHERE idpudelka = 'abcd';
+
+WITH nowe_ceny AS
+    (SELECT SUM(koszt) suma FROM czekoladki c INNER JOIN zawartosc z USING (idczekoladki) WHERE z.idpudelka = 'dcba')
+UPDATE pudelka SET cena = nowe_ceny.suma FROM nowe_ceny
+WHERE idpudelka = 'dcba';

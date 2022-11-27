@@ -104,3 +104,34 @@ SELECT SUM(masa) FROM czekoladki c
 
 -- 2
 SELECT SUM(cena) FROM pudelka;
+
+-- 3
+WITH k AS
+    (SELECT SUM(koszt) koszt_produkcji, idpudelka FROM czekoladki INNER JOIN zawartosc USING (idczekoladki) GROUP BY idpudelka),
+c AS
+    (SELECT cena, idpudelka FROM pudelka)
+SELECT idpudelka, cena-koszt_produkcji zysk FROM k INNER JOIN c USING (idpudelka);
+
+-- 4
+WITH z AS
+    (WITH k AS
+        (SELECT SUM(koszt) koszt_produkcji, idpudelka FROM czekoladki INNER JOIN zawartosc USING (idczekoladki) GROUP BY idpudelka),
+    c AS
+        (SELECT cena, idpudelka FROM pudelka)
+    SELECT idpudelka, cena-koszt_produkcji zysk FROM k INNER JOIN c USING (idpudelka))
+SELECT SUM(zysk*sztuk) FROM z INNER JOIN artykuly USING (idpudelka);
+
+-- 5
+WITH z AS
+    (WITH k AS
+        (SELECT SUM(koszt) koszt_produkcji, idpudelka FROM czekoladki INNER JOIN zawartosc USING (idczekoladki) GROUP BY idpudelka),
+    c AS
+        (SELECT cena, idpudelka FROM pudelka)
+    SELECT idpudelka, cena-koszt_produkcji zysk FROM k INNER JOIN c USING (idpudelka))
+SELECT SUM(zysk*stan) FROM z INNER JOIN pudelka USING (idpudelka);
+
+
+-- ZADANIE 5.8
+
+-- 1
+SELECT ROW_NUMBER() OVER (ORDER BY idpudelka ASC) AS num, idpudelka FROM pudelka;

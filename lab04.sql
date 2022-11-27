@@ -67,3 +67,59 @@ SELECT DISTINCT p.nazwa, p.opis, c.nazwa, c.opis FROM czekoladki c
     INNER JOIN pudelka p USING (idpudelka)
     WHERE p.nazwa ~ 'Kolekcja'
     ORDER BY p.nazwa;
+
+
+-- ZADANIE 4.5
+
+-- 1
+SELECT DISTINCT p.nazwa, p.opis, p.cena FROM pudelka p
+    INNER JOIN zawartosc z on p.idpudelka = z.idpudelka
+    INNER JOIN czekoladki c on c.idczekoladki = z.idczekoladki
+WHERE c.idczekoladki = 'd09';
+
+-- 2
+SELECT DISTINCT p.nazwa, p.opis, p.cena FROM pudelka p
+    INNER JOIN zawartosc z on p.idpudelka = z.idpudelka
+    INNER JOIN czekoladki c on c.idczekoladki = z.idczekoladki
+WHERE c.nazwa ~ '^S';
+
+-- 3
+SELECT DISTINCT p.nazwa, p.opis, p.cena FROM pudelka p
+    INNER JOIN zawartosc z on p.idpudelka = z.idpudelka
+WHERE z.sztuk >= 4;
+
+-- 4
+SELECT DISTINCT p.nazwa, p.opis, p.cena FROM pudelka p
+    INNER JOIN zawartosc z on p.idpudelka = z.idpudelka
+    INNER JOIN czekoladki c on c.idczekoladki = z.idczekoladki
+WHERE c.nadzienie = 'truskawki';
+
+-- 5
+SELECT nazwa, opis, cena FROM pudelka WHERE idpudelka NOT IN (
+    SELECT idpudelka FROM zawartosc z
+        INNER JOIN czekoladki c on c.idczekoladki = z.idczekoladki
+    WHERE c.czekolada = 'gorzka');
+
+-- 6
+SELECT DISTINCT p.nazwa, p.opis, p.cena FROM pudelka p
+    INNER JOIN zawartosc z on p.idpudelka = z.idpudelka
+    INNER JOIN czekoladki c on c.idczekoladki = z.idczekoladki
+WHERE c.nazwa = 'Gorzka truskawkowa' AND z.sztuk >= 3;
+
+-- 7
+SELECT nazwa, opis, cena FROM pudelka WHERE idpudelka NOT IN (
+    SELECT idpudelka FROM zawartosc z
+        INNER JOIN czekoladki c on c.idczekoladki = z.idczekoladki
+    WHERE c.orzechy IS NOT NULL);
+
+-- 8
+SELECT DISTINCT p.nazwa, p.opis, p.cena FROM pudelka p
+    INNER JOIN zawartosc z on p.idpudelka = z.idpudelka
+    INNER JOIN czekoladki c on c.idczekoladki = z.idczekoladki
+WHERE c.nazwa = 'Gorzka truskawkowa';
+
+-- 9
+SELECT DISTINCT p.nazwa, p.opis, p.cena FROM pudelka p
+    INNER JOIN zawartosc z on p.idpudelka = z.idpudelka
+    INNER JOIN czekoladki c on c.idczekoladki = z.idczekoladki
+WHERE c.nadzienie IS NULL;
