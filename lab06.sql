@@ -106,3 +106,22 @@ WITH nowe_ceny AS
     (SELECT SUM(koszt) suma FROM czekoladki c INNER JOIN zawartosc z USING (idczekoladki) WHERE z.idpudelka = 'dcba')
 UPDATE pudelka SET cena = nowe_ceny.suma FROM nowe_ceny
 WHERE idpudelka = 'dcba';
+
+
+-- ZADANIE 6.8
+
+-- 1
+UPDATE zawartosc SET sztuk = sztuk + 1 WHERE idpudelka IN ('abcd', 'dcba');
+
+-- 2
+UPDATE czekoladki SET czekolada = 'brak' WHERE czekolada IS NULL;
+UPDATE czekoladki SET orzechy = 'brak' WHERE orzechy IS NULL;
+UPDATE czekoladki SET nadzienie = 'brak' WHERE nadzienie IS NULL;
+
+SELECT * FROM czekoladki;
+
+-- 3
+UPDATE czekoladki SET czekolada = NULL WHERE czekolada = 'brak';
+UPDATE czekoladki SET orzechy = NULL WHERE orzechy = 'brak';
+UPDATE czekoladki SET nadzienie = NULL WHERE nadzienie = 'brak';
+SELECT * FROM czekoladki;

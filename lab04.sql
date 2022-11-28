@@ -123,3 +123,24 @@ SELECT DISTINCT p.nazwa, p.opis, p.cena FROM pudelka p
     INNER JOIN zawartosc z on p.idpudelka = z.idpudelka
     INNER JOIN czekoladki c on c.idczekoladki = z.idczekoladki
 WHERE c.nadzienie IS NULL;
+
+
+-- ZADANIE 4.6
+
+-- 1
+SELECT idczekoladki, nazwa FROM czekoladki WHERE koszt > (SELECT koszt FROM czekoladki WHERE idczekoladki = 'd08');
+
+-- 2
+WITH pud AS
+    (SELECT idpudelka FROM klienci k
+        NATURAL JOIN zamowienia z NATURAL JOIN artykuly a
+    WHERE k.nazwa = 'Górka Alicja')
+SELECT DISTINCT k.nazwa FROM klienci k NATURAL JOIN zamowienia z NATURAL JOIN pud;
+
+-- 3
+WITH pud AS
+    (SELECT idpudelka FROM klienci k
+        NATURAL JOIN zamowienia z NATURAL JOIN artykuly a
+    WHERE k.miejscowosc = 'Katowice')
+SELECT DISTINCT k.nazwa, concat(k.ulica, ', ', k.miejscowosc) AS adres FROM klienci k
+    NATURAL JOIN zamowienia z NATURAL JOIN pud;
